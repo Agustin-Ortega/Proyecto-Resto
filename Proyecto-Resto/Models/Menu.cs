@@ -4,7 +4,7 @@ namespace Proyecto_Resto.Models
 {
     public class Menu
     {
-       
+        [Key]
         public int Id { get; set; }
         public Opcion tipo { get; set; }
         [Required]
