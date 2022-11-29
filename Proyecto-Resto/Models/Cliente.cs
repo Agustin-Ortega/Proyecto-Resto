@@ -22,7 +22,7 @@ namespace Proyecto_Resto.Models
 
         [Required(ErrorMessage = MsgError.Requerido)]
         [DataType(DataType.PhoneNumber)]
-        [Display(Name ="Nro Telefono")]
+        [Display(Name ="Nro Telefono !")]
         public int Telefono { get; set; }
 
 
