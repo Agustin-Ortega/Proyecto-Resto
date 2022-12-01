@@ -17,6 +17,12 @@ namespace Proyecto_Resto.Context
 
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
+        
+        public DbSet<Restaurante> Restaurantes { get; set; }
+
+        public DbSet<Plato> Platos { get; set; }
+        
+        public DbSet<Menu> Menus { get; set; }
 
     }
 }

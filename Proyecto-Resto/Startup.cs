@@ -20,7 +20,10 @@ namespace Proyecto_Resto
         }
         private static void ConfigureServices(WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<RestoContext>(options => options.UseInMemoryDatabase("RestoDb"));
+
+            //builder.Services.AddDbContext<RestoContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbContext") ?? throw new InvalidOperationException("Connection string fallida")));
+
+            builder.Services.AddDbContext<RestoContext>(options => options.UseInMemoryDatabase("DbContext")); // base con persistencia en memoria de prueba  
 
 
             // Add services to the container.
