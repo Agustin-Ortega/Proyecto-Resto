@@ -2,15 +2,12 @@
 
 namespace Proyecto_Resto.Models
 {
-    public class Menu
+    public class Restaurante
     {
         [Key]
         public int Id { get;  set; }
-
-        public int importeTotal { get;  set; } = 0;
-
-        public List<Plato> Platos { get;  set; }
-
-
+        [Required]
+        [Display(Name ="Restaurante")]
+        public string nombre { get;  set; }
     }
 }
