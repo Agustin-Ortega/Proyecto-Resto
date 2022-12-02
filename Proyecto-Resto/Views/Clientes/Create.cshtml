@@ -37,6 +37,9 @@
                     <input class="form-check-input" asp-for="isAdmin" /> @Html.DisplayNameFor(model => model.isAdmin)
                 </label>
             </div>
+
+            @*<input asp-for="fecha" class="form-control" hidden/>   LO USAMOS PARA MANDAR LA FECHA POR DEFECTO SIN LLENAR EL FORM Y Q SE SETEE EN EL CONTROLLER *@
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

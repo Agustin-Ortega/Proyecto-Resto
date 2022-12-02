@@ -22,9 +22,51 @@ namespace Proyecto_Resto.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            var restoContext = _context.Reservas.Include(r => r.Cliente).Include(r => r.Menu).Include(r => r.Restaurante);
-            return View(await restoContext.ToListAsync());
+            int usuariologueado = 1; // valor hardcodeado desp lo sacamos de identity
+            // traemos las relaciones de foreing key
+            var restoContext = await _context.Reservas
+                                                    .Where(r=> r.idCliente == usuariologueado)
+                                                    .Include(r => r.Cliente)
+                                                    .Include(r => r.Restaurante)
+                                                    .Include(r=> r.ItemReserva) //?
+                                                    .ToListAsync();
+
+            // traemos la lista de platos
+            foreach (var reserva in restoContext)
+            {
+                foreach (var item in reserva.ItemReserva)
+                {
+                    item.Plato = await _context.Platos.FindAsync(item.idPlato);
+                }
+            }
+
+            return View(restoContext);
         }
+
+        // GET: Reservas de admi
+        public async Task<IActionResult> IndexAdmin()  // no usamos todavia
+        {            
+            // traemos las relaciones de foreing key
+            var restoContext = await _context.Reservas                                                    
+                                                    .Include(r => r.Cliente)
+                                                    .Include(r => r.Restaurante)
+                                                    .Include(r => r.ItemReserva) //?
+                                                    .ToListAsync();
+
+            // traemos la lista de platos
+            foreach (var reserva in restoContext)
+            {
+                foreach (var item in reserva.ItemReserva)
+                {
+                    item.Plato = await _context.Platos.FindAsync(item.idPlato);
+                }
+            }
+
+            return View(restoContext);
+        }
+
+
+
 
         // GET: Reservas/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -36,7 +78,6 @@ namespace Proyecto_Resto.Controllers
 
             var reserva = await _context.Reservas
                 .Include(r => r.Cliente)
-                .Include(r => r.Menu)
                 .Include(r => r.Restaurante)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reserva == null)
@@ -47,33 +88,108 @@ namespace Proyecto_Resto.Controllers
             return View(reserva);
         }
 
+
+
+
         // GET: Reservas/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["idCliente"] = new SelectList(_context.Clientes, "Id", "Apellido");
-            ViewData["idMenu"] = new SelectList(_context.Menus, "Id", "Id");
-            ViewData["idRestaurante"] = new SelectList(_context.Restaurantes, "Id", "nombre");
-            return View();
+
+            int usuarioLogueado = 1;  //  valor hardcodeado desp lo sacamos de identity
+
+            // creo la lista de item reservas
+
+            var itemReservas = await _context.ItemReservas
+                .Include(i => i.Reserva)
+                .Include(i => i.Plato)
+                .ToListAsync();
+
+            // filtramos los platos del cliente
+            //var listaItem = itemReservas.Where(p => p.idCliente == usuarioLogueado && p.ItemProcesado ==false).ToList();  esto si hacemos la relacion entre plato y cliente
+            // filtramos los platos q ya se generaron
+            var listaItem = itemReservas.Where(p => p.ItemProcesado == false).ToList();
+
+            // calculamos el total de los items
+            double total = ObtenerTotal(listaItem);
+
+
+            // creamos el objeto reserva
+
+            Reserva reserva = new Reserva
+            {
+                //idCliente = usuarioLogueado,
+                //Cliente = await _context.Clientes.FindAsync(usuarioLogueado),
+                ItemReserva = listaItem,
+                Total = total,
+
+            };
+
+            if(await CrearReserva(reserva))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction("Privacy", "Home");  // seria en caso de error
+
+
+
+
+            //ViewData["idCliente"] = new SelectList(_context.Clientes, "Id", "Apellido");
+            //ViewData["idRestaurante"] = new SelectList(_context.Restaurantes, "Id", "nombre");
+            //return View();
         }
 
-        // POST: Reservas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fecha,CantidadPersonas,idCliente,idMenu,idRestaurante")] Reserva reserva)
+        private async Task<bool> CrearReserva(Reserva reserva)
         {
             if (ModelState.IsValid)
             {
+                // lo guardo
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // cambiamos el estado de los item a true indicando que ya se genero la reserva exitosamente
+                foreach (var item in reserva.ItemReserva)
+                {
+                    item.ItemProcesado = true;
+                    _context.Update(item);
+                    await _context.SaveChangesAsync();
+                }
+                return true;
             }
-            ViewData["idCliente"] = new SelectList(_context.Clientes, "Id", "Apellido", reserva.idCliente);
-            ViewData["idMenu"] = new SelectList(_context.Menus, "Id", "Id", reserva.idMenu);
-            ViewData["idRestaurante"] = new SelectList(_context.Restaurantes, "Id", "nombre", reserva.idRestaurante);
-            return View(reserva);
+
+            return false;
         }
+
+
+
+
+
+        // POST: Reservas/Create   NO USADO, EL GENERADOR DE RESERVAS SE HACE DESDE EL ITEM 
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Fecha,CantidadPersonas,idCliente,Total,idRestaurante")] Reserva reserva)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(reserva);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["idCliente"] = new SelectList(_context.Clientes, "Id", "Apellido", reserva.idCliente);
+        //    ViewData["idRestaurante"] = new SelectList(_context.Restaurantes, "Id", "nombre", reserva.idRestaurante);
+        //    return View(reserva);
+        //}
+
+
+
+
+
+
+
+
+
+
 
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -89,7 +205,6 @@ namespace Proyecto_Resto.Controllers
                 return NotFound();
             }
             ViewData["idCliente"] = new SelectList(_context.Clientes, "Id", "Apellido", reserva.idCliente);
-            ViewData["idMenu"] = new SelectList(_context.Menus, "Id", "Id", reserva.idMenu);
             ViewData["idRestaurante"] = new SelectList(_context.Restaurantes, "Id", "nombre", reserva.idRestaurante);
             return View(reserva);
         }
@@ -99,7 +214,7 @@ namespace Proyecto_Resto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,CantidadPersonas,idCliente,idMenu,idRestaurante")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,CantidadPersonas,idCliente,Total,idRestaurante")] Reserva reserva)
         {
             if (id != reserva.Id)
             {
@@ -127,7 +242,6 @@ namespace Proyecto_Resto.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["idCliente"] = new SelectList(_context.Clientes, "Id", "Apellido", reserva.idCliente);
-            ViewData["idMenu"] = new SelectList(_context.Menus, "Id", "Id", reserva.idMenu);
             ViewData["idRestaurante"] = new SelectList(_context.Restaurantes, "Id", "nombre", reserva.idRestaurante);
             return View(reserva);
         }
@@ -142,7 +256,6 @@ namespace Proyecto_Resto.Controllers
 
             var reserva = await _context.Reservas
                 .Include(r => r.Cliente)
-                .Include(r => r.Menu)
                 .Include(r => r.Restaurante)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reserva == null)
@@ -175,6 +288,18 @@ namespace Proyecto_Resto.Controllers
         private bool ReservaExists(int id)
         {
           return _context.Reservas.Any(e => e.Id == id);
+        }
+
+        private double ObtenerTotal(List<ItemReserva> lista)
+        {
+            double total = 0;
+
+            foreach (var item in lista)
+            {
+                total += item.Plato.precio;
+            }
+
+            return total;
         }
     }
 }

@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.stock)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Menu)
+                @Html.DisplayNameFor(model => model.Imagen)
             </th>
             <th></th>
         </tr>
@@ -43,10 +43,15 @@
                 @Html.DisplayFor(modelItem => item.precio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.stock)
+                @if(item.stock>0){
+                        @Html.DisplayFor(modelItem => item.stock)
+                }else{
+                    <p class="text-danger">Sin Stock</p>
+                }
+                
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Menu.Id)
+                    <img src="@item.Imagen" height="75" alt="@item.nombre" />
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

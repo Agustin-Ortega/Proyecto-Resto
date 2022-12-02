@@ -22,7 +22,7 @@ namespace Proyecto_Resto.Context
 
         public DbSet<Plato> Platos { get; set; }
         
-        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Proyecto_Resto.Models.ItemReserva> ItemReservas { get; set; }
 
     }
 }
