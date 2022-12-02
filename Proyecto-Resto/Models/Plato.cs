@@ -25,8 +25,8 @@ namespace Proyecto_Resto.Models
         public int stock { get; set; } = 20;
         //public bool stock { get; set; } = true;   alternativa
 
-        [ForeignKey("Menu")]
-        public int idMenu { get; set; }
-        public Menu Menu { get; set; }
+        [Display(Name ="Foto del plato")]
+        public string? Imagen { get; set; }
+
     }
 }

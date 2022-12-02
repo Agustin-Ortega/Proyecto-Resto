@@ -20,12 +20,14 @@ namespace Proyecto_Resto.Controllers
         }
 
         // GET: Clientes
+        [HttpGet("Clientes/Inicio")]
         public async Task<IActionResult> Index()
         {
               return View(await _context.Clientes.ToListAsync());
         }
 
         // GET: Clientes/Details/5
+        [HttpGet("Clientes/Detalle/{id?}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Clientes == null)
@@ -58,6 +60,16 @@ namespace Proyecto_Resto.Controllers
         {
             if (ModelState.IsValid)
             {
+               //if (cliente.Apellido == "ortega")
+               //{
+               //    cliente.isAdmin = true;
+               //}
+               //RedirectToAction("Privacy", "Home");
+               //var cliente2 = await _context.Clientes.OrderByDescending(e => e.Id).FirstOrDefaultAsync();
+
+                
+
+
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -13,6 +13,7 @@ namespace Proyecto_Resto.Controllers
     public class PlatosController : Controller
     {
         private readonly RestoContext _context;
+        private const string _fotoPlatoDefault = "https://cdn1.iconfinder.com/data/icons/food-and-drinks-21/64/apple-cake-dessert-pie-homemade-food-212.png";
 
         public PlatosController(RestoContext context)
         {
@@ -22,8 +23,7 @@ namespace Proyecto_Resto.Controllers
         // GET: Platos
         public async Task<IActionResult> Index()
         {
-            var restoContext = _context.Platos.Include(p => p.Menu);
-            return View(await restoContext.ToListAsync());
+              return View(await _context.Platos.ToListAsync());
         }
 
         // GET: Platos/Details/5
@@ -35,7 +35,6 @@ namespace Proyecto_Resto.Controllers
             }
 
             var plato = await _context.Platos
-                .Include(p => p.Menu)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (plato == null)
             {
@@ -48,7 +47,6 @@ namespace Proyecto_Resto.Controllers
         // GET: Platos/Create
         public IActionResult Create()
         {
-            ViewData["idMenu"] = new SelectList(_context.Menus, "Id", "Id");
             return View();
         }
 
@@ -57,15 +55,18 @@ namespace Proyecto_Resto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,nombre,descricpion,precio,stock,idMenu")] Plato plato)
+        public async Task<IActionResult> Create([Bind("Id,nombre,descricpion,precio,stock,Imagen")] Plato plato)
         {
             if (ModelState.IsValid)
             {
+                if(plato.Imagen == null)
+                {
+                    plato.Imagen = _fotoPlatoDefault;
+                }
                 _context.Add(plato);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["idMenu"] = new SelectList(_context.Menus, "Id", "Id", plato.idMenu);
             return View(plato);
         }
 
@@ -82,7 +83,6 @@ namespace Proyecto_Resto.Controllers
             {
                 return NotFound();
             }
-            ViewData["idMenu"] = new SelectList(_context.Menus, "Id", "Id", plato.idMenu);
             return View(plato);
         }
 
@@ -91,7 +91,7 @@ namespace Proyecto_Resto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,nombre,descricpion,precio,stock,idMenu")] Plato plato)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,nombre,descricpion,precio,stock,Imagen")] Plato plato)
         {
             if (id != plato.Id)
             {
@@ -118,7 +118,6 @@ namespace Proyecto_Resto.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["idMenu"] = new SelectList(_context.Menus, "Id", "Id", plato.idMenu);
             return View(plato);
         }
 
@@ -131,7 +130,6 @@ namespace Proyecto_Resto.Controllers
             }
 
             var plato = await _context.Platos
-                .Include(p => p.Menu)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (plato == null)
             {

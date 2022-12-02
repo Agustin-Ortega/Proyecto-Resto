@@ -20,23 +20,21 @@ namespace Proyecto_Resto.Models
         
         [Required(ErrorMessage = MsgError.Requerido)]
         [Display(Name = "Cantidad")]
-        [Range(1, 10, ErrorMessage = MsgError.StringMaxMin)]
+        [Range(1, 5, ErrorMessage = MsgError.StringMaxMin)]
         public int CantidadPersonas { get;  set; }
 
-
-        [ForeignKey("Cliente")]
         //los hacemos nulleables
-        public int idCliente { get; set; }
-        public Cliente Cliente { get; set; }
+        public int? idCliente { get; set; }
+        [ForeignKey("idCliente")]
+        public Cliente? Cliente { get; set; }
+
+        public List<ItemReserva>? ItemReserva { get; set; }
+        public double Total { get; set; }
 
 
-        [ForeignKey("Menu")]
-        public int idMenu { get;  set; }
-        public Menu Menu { get;  set; }
-
-        [ForeignKey("Restaurante")]
-        public int idRestaurante { get; set; }
-        public Restaurante Restaurante { get; set; }
+        public int? idRestaurante { get; set; }
+        [ForeignKey("idRestaurante")]
+        public Restaurante? Restaurante { get; set; }
 
     }
 }
