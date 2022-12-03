@@ -19,6 +19,30 @@ namespace Proyecto_Resto.Controllers
             _context = context;
         }
 
+
+        public async Task<IActionResult> IndexReserva()
+        {
+            int usuariologueado = 1; // valor hardcodeado desp lo sacamos de identity
+            // traemos las relaciones de foreing key
+            var restoContext = await _context.Reservas
+                                                    .Where(r => r.idCliente == usuariologueado)
+                                                    .Include(r => r.Cliente)
+                                                    .Include(r => r.Restaurante)
+                                                    .Include(r => r.ItemReserva) //?
+                                                    .ToListAsync();
+
+            // traemos la lista de platos
+            foreach (var reserva in restoContext)
+            {
+                foreach (var item in reserva.ItemReserva)
+                {
+                    item.Plato = await _context.Platos.FindAsync(item.idPlato);
+                }
+            }
+
+            return View(restoContext);
+        }
+
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
@@ -117,8 +141,12 @@ namespace Proyecto_Resto.Controllers
 
             Reserva reserva = new Reserva
             {
-                //idCliente = usuarioLogueado,
-                //Cliente = await _context.Clientes.FindAsync(usuarioLogueado),
+                idCliente = usuarioLogueado,
+                Cliente = await _context.Clientes.FindAsync(usuarioLogueado),
+                Fecha = new DateTime(),   //?
+                CantidadPersonas = 0,     //?
+                idRestaurante = null,        //?
+                Restaurante = null,       //?
                 ItemReserva = listaItem,
                 Total = total,
 
@@ -126,7 +154,9 @@ namespace Proyecto_Resto.Controllers
 
             if(await CrearReserva(reserva))
             {
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                //return View(reserva);
+                return RedirectToAction("IndexReserva", "Reservas");
             }
 
             return RedirectToAction("Privacy", "Home");  // seria en caso de error
