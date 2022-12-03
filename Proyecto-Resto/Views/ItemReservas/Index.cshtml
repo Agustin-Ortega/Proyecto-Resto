@@ -4,11 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Elegir Menu</h1>
 
-<p>
+<p align="center">
     @*<a asp-action="Create">Create New</a>*@
-    <a asp-action="Create" class="btn btn-success">Agregar Item</a>
+    <a asp-action="Create" class="btn btn-info">Agregar Item</a>
 
 </p>
 
@@ -50,7 +50,7 @@
         <div>
             <h5 class="card-title">Importe total del Menu</h5>
             <p class="card-text">$ @total.ToString()</p>
-            <a class="btn btn-danger" asp-controller="Reservas" asp-action="Create">Generar Reserva</a>
+            <a class="btn btn-danger" asp-controller="Reservas" asp-action="Create">Confirmar Menu</a>
         </div>
     </div>
 </div>
