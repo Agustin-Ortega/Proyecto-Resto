@@ -8,7 +8,7 @@ namespace Proyecto_Resto.Models
     public class Cliente
     {
         [Key]
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = MsgError.Requerido)]
         [StringLength(10,MinimumLength =3, ErrorMessage = MsgError.StringMaxMin)]

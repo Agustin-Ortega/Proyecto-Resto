@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_Resto.Context;
 using Proyecto_Resto.Models;
+using Proyecto_Resto.Models.ViewModels;
 
 namespace Proyecto_Resto.Controllers
 {
@@ -168,6 +169,64 @@ namespace Proyecto_Resto.Controllers
         private bool ClienteExists(int id)
         {
           return _context.Clientes.Any(e => e.Id == id);
+        }
+
+
+        //VIEW MODEL DE ADMINISTRADOR
+
+        public async Task<IActionResult> Informe1()
+        {
+            var listaReservas = await _context.Reservas
+                .Where(p => p.Fecha >= DateTime.Now.AddDays(-30))
+                .Include(p => p.Cliente)
+                .Include(p => p.ItemReserva)
+                .ThenInclude(i => i.Plato)  // de item pedido para no hacer un for each
+                .OrderByDescending(p => p.Fecha)
+                .ToListAsync();
+
+            if (listaReservas == null)
+            {
+                return RedirectToAction("Privacy", "Home");
+
+            }
+
+            List<Informe1> listaDeInformes = new List<Informe1>();
+
+            foreach(var reserva in listaReservas)
+            {
+                var informe1 = new Informe1
+                {
+
+                    Fecha = reserva.Fecha,  
+                    Cliente = reserva.Cliente.Nombre + " " + reserva.Cliente.Apellido,
+                    ListaPlatos = ObtenerPlatos(reserva),
+                    Total = reserva.Total,
+                    Ganancia = CalcularGanacia(reserva.Total, reserva)
+                };
+                listaDeInformes.Add(informe1);
+
+            }
+
+            return View(listaDeInformes); 
+
+
+        }
+
+        private double CalcularGanacia(double total, Reserva? reserva)
+        {
+            return total- reserva.ItemReserva.Sum(i => i.Plato.Costo);
+            
+        }
+
+        private List<string> ObtenerPlatos(Reserva? reserva)
+        {
+            var lista = new List<string>();
+            foreach (var plato in reserva.ItemReserva)
+            {
+                lista.Add(plato.Plato.nombre);
+            }
+
+            return lista;
         }
     }
 }

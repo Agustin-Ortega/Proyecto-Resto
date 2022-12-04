@@ -4,48 +4,59 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<br />
+<br />
+<br />
+<br />
+<br />
 
-<h4>Plato</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div align="center" class="jumbotron"> 
+<h4>Nuevo Plato</h4>
+<div >
+    <div>
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="nombre" class="control-label"></label>
-                <input asp-for="nombre" class="form-control" />
+                <label asp-for="nombre" class="control-label"></label><br />
+                <input asp-for="nombre" class="caja" />
                 <span asp-validation-for="nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="descricpion" class="control-label"></label>
-                <input asp-for="descricpion" class="form-control" />
+                    <label asp-for="descricpion" class="control-label"></label><br />
+                    <input asp-for="descricpion" class="caja" />
                 <span asp-validation-for="descricpion" class="text-danger"></span>
             </div>
+                <div class="form-group">
+                    <label asp-for="Costo" class="control-label"></label><br />
+                    <input asp-for="Costo" class="caja" />
+                    <span asp-validation-for="Costo" class="text-danger"></span>
+                </div>
             <div class="form-group">
-                <label asp-for="precio" class="control-label"></label>
-                <input asp-for="precio" class="form-control" />
+                    <label asp-for="precio" class="control-label"></label><br />
+                    <input asp-for="precio" class="caja" />
                 <span asp-validation-for="precio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="stock" class="control-label"></label>
-                <input asp-for="stock" class="form-control" />
+                    <label asp-for="stock" class="control-label"></label><br />
+                    <input asp-for="stock" class="caja" />
                 <span asp-validation-for="stock" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Imagen" class="control-label"></label>
-                <input asp-for="Imagen" class="form-control" />
+                    <label asp-for="Imagen" class="control-label"></label><br />
+                    <input asp-for="Imagen" class="caja" />
                 <span asp-validation-for="Imagen" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Añadir" class="btn btn-outline-dark my-3" />
             </div>
         </form>
     </div>
 </div>
 
+</div>
+
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">volver atras</a>
 </div>
 
 @section Scripts {
