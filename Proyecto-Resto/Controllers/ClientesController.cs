@@ -214,7 +214,7 @@ namespace Proyecto_Resto.Controllers
 
         private double CalcularGanacia(double total, Reserva? reserva)
         {
-            return total+= reserva.ItemReserva.Sum(i => i.Plato.precio);
+            return total- reserva.ItemReserva.Sum(i => i.Plato.Costo);
             
         }
 

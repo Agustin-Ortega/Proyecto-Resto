@@ -55,17 +55,23 @@
                 @*      <td>
             @Html.DisplayFor(modelItem => item.Restaurante.nombre)
             </td>*@
-                <td>
+                <td>                    
+           
                     @foreach (var i in item.ItemReserva)
                     {
-                      
-                            <p class="small">@i.Plato.nombre</p>
+
                         
-                        
+                         <p class="small">@i.Plato.nombre</p>
+
+
                     }
+                       
+                    
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Generar Reserva</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Generar Reserva</a>
+                    <img src="~/img/5.png" width="60px"/>
+                    |
                     <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
                 </td>
             </tr>

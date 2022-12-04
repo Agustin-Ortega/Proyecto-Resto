@@ -19,6 +19,9 @@ namespace Proyecto_Resto.Models
         public string descricpion { get; set; }
 
         [Required]
+        public int Costo { get; set; }
+
+        [Required]
         public int precio { get; set; } = 0;
 
         [Required]

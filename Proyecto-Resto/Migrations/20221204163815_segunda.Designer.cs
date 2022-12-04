@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proyecto_Resto.Context;
 
@@ -11,9 +12,10 @@ using Proyecto_Resto.Context;
 namespace Proyecto_Resto.Migrations
 {
     [DbContext(typeof(RestoContext))]
-    partial class RestoContextModelSnapshot : ModelSnapshot
+    [Migration("20221204163815_segunda")]
+    partial class segunda
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
