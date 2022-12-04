@@ -1,9 +1,10 @@
-﻿ using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Proyecto_Resto.Models;
 
 namespace Proyecto_Resto.Context
 {
-    public class RestoContext: DbContext
+    public class RestoContext: IdentityDbContext
     {
         public RestoContext(DbContextOptions options) : base(options)
         {

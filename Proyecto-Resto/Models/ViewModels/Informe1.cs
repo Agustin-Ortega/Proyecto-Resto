@@ -14,7 +14,7 @@ namespace Proyecto_Resto.Models.ViewModels
 
         [Display(Name ="Precio de Venta")]
         public double Total { get; set; }
-
+         
         public double Ganancia { get; set; }
     }
 }
