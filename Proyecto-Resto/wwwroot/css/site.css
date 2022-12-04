@@ -30,6 +30,10 @@ body {
   margin-bottom: 60px;
 }
 
+.fondoTd {
+    background-color: rgba(19, 18, 18, 0.995);
+    color:antiquewhite;
+}
 a{
     color:antiquewhite;
 }
@@ -81,14 +85,23 @@ h3{
     margin-top: 5rem;
     padding-top: 2rem;
     padding-bottom: 2rem;
-    background-color: rgba(19, 18, 18, 0.795);
+    /*background-color: rgba(19, 18, 18, 0.795);*/
+    background-color: rgba(73, 8, 8, 0.40);
     color: antiquewhite;
     margin: auto 0;
-    text-align: center;
+    /*  text-align: center;*/
+}
+
+#jb2 {
+    font-size: small;
+    color: antiquewhite;
+    background-color: rgba(0, 0, 0, 0.623);
+    padding-bottom: 2rem;
+    padding-top: 2rem;
 }
 
 .caja {
-/*    margin-top: 8px;
+    /*    margin-top: 8px;
     border: auto;*/
     background-color: #131212;
     color: rgb(167, 164, 164);

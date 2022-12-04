@@ -3,8 +3,11 @@
 @{
     ViewData["Title"] = "Index";
 }
+<br />
+<br />
+<br />
+<h4>Menu</h4>
 
-<h1>Menu</h1>
 
 @*<p>
     <a asp-action="Create">Create New</a>
@@ -13,6 +16,7 @@
     <thead>
         <tr>
             <th>
+              
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
             @* <th>
@@ -30,7 +34,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+   <tbody class="fondoTd">
         @foreach (var item in Model)
         {
             <tr>
@@ -54,7 +58,10 @@
                 <td>
                     @foreach (var i in item.ItemReserva)
                     {
-                        <p class="small">@i.Plato.nombre</p>
+                      
+                            <p class="small">@i.Plato.nombre</p>
+                        
+                        
                     }
                 </td>
                 <td>

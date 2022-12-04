@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] -Resto - ORT</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Proyecto_Resto.styles.css" asp-append-version="true" />
-    
-
 </head>
 <body> 
     <header>
 
+        @*NAVBAR*@
+
+
         <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-            
+             <img src="~/img/cafe.png" width="50px" height="50px" />
             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Resto ORT</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -22,12 +24,16 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">                                    
                     <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
-                    <a class="nav-link disabled">Perfil usuario</a>
+                    <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="Index">Reservas</a>
+                    <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Informe1">Informe</a>
+                    @*<a class="nav-link disabled"></a>*@
                 </div>
             </div>
         </nav>
        
         <br />
+
+        @*SUBMENU*@
 
            <table class="tabla">
         
@@ -47,14 +53,17 @@
             </tr>
         </table>
 
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
- 
+@*    @*CARRUSEL
     <br />
+    <br />
+    <img src="~/img/bebidas.jpg" class="d-block w-100" width="100px" height="400px">*@
     <footer>
 
             &copy; 2022 - Proyecto_Resto - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
