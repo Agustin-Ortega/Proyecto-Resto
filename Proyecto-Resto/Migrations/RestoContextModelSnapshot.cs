@@ -58,7 +58,7 @@ namespace Proyecto_Resto.Migrations
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("Proyecto_Resto.Models.Menu", b =>
+            modelBuilder.Entity("Proyecto_Resto.Models.ItemReserva", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,12 +66,22 @@ namespace Proyecto_Resto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("importeTotal")
+                    b.Property<bool?>("ItemProcesado")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("idPlato")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("idReserva")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Menus");
+                    b.HasIndex("idPlato");
+
+                    b.HasIndex("idReserva");
+
+                    b.ToTable("ItemReservas");
                 });
 
             modelBuilder.Entity("Proyecto_Resto.Models.Plato", b =>
@@ -82,13 +92,13 @@ namespace Proyecto_Resto.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Imagen")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("descricpion")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("idMenu")
-                        .HasColumnType("int");
 
                     b.Property<string>("nombre")
                         .IsRequired()
@@ -102,8 +112,6 @@ namespace Proyecto_Resto.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("idMenu");
 
                     b.ToTable("Platos");
                 });
@@ -122,20 +130,18 @@ namespace Proyecto_Resto.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("idCliente")
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("idCliente")
                         .HasColumnType("int");
 
-                    b.Property<int>("idMenu")
-                        .HasColumnType("int");
-
-                    b.Property<int>("idRestaurante")
+                    b.Property<int?>("idRestaurante")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("idCliente");
-
-                    b.HasIndex("idMenu");
 
                     b.HasIndex("idRestaurante");
 
@@ -159,40 +165,34 @@ namespace Proyecto_Resto.Migrations
                     b.ToTable("Restaurantes");
                 });
 
-            modelBuilder.Entity("Proyecto_Resto.Models.Plato", b =>
+            modelBuilder.Entity("Proyecto_Resto.Models.ItemReserva", b =>
                 {
-                    b.HasOne("Proyecto_Resto.Models.Menu", "Menu")
-                        .WithMany("Platos")
-                        .HasForeignKey("idMenu")
+                    b.HasOne("Proyecto_Resto.Models.Plato", "Plato")
+                        .WithMany()
+                        .HasForeignKey("idPlato")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Menu");
+                    b.HasOne("Proyecto_Resto.Models.Reserva", "Reserva")
+                        .WithMany("ItemReserva")
+                        .HasForeignKey("idReserva");
+
+                    b.Navigation("Plato");
+
+                    b.Navigation("Reserva");
                 });
 
             modelBuilder.Entity("Proyecto_Resto.Models.Reserva", b =>
                 {
                     b.HasOne("Proyecto_Resto.Models.Cliente", "Cliente")
                         .WithMany("reservas")
-                        .HasForeignKey("idCliente")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Proyecto_Resto.Models.Menu", "Menu")
-                        .WithMany()
-                        .HasForeignKey("idMenu")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("idCliente");
 
                     b.HasOne("Proyecto_Resto.Models.Restaurante", "Restaurante")
                         .WithMany()
-                        .HasForeignKey("idRestaurante")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("idRestaurante");
 
                     b.Navigation("Cliente");
-
-                    b.Navigation("Menu");
 
                     b.Navigation("Restaurante");
                 });
@@ -202,9 +202,9 @@ namespace Proyecto_Resto.Migrations
                     b.Navigation("reservas");
                 });
 
-            modelBuilder.Entity("Proyecto_Resto.Models.Menu", b =>
+            modelBuilder.Entity("Proyecto_Resto.Models.Reserva", b =>
                 {
-                    b.Navigation("Platos");
+                    b.Navigation("ItemReserva");
                 });
 #pragma warning restore 612, 618
         }

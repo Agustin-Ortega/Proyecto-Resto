@@ -28,7 +28,8 @@ namespace Proyecto_Resto.Controllers
                                                     .Where(r => r.idCliente == usuariologueado)
                                                     .Include(r => r.Cliente)
                                                     .Include(r => r.Restaurante)
-                                                    .Include(r => r.ItemReserva) //?
+                                                    .Include(r => r.ItemReserva)
+                                                    .OrderByDescending(p => p.Fecha)//?
                                                     .ToListAsync();
 
             // traemos la lista de platos
@@ -52,7 +53,8 @@ namespace Proyecto_Resto.Controllers
                                                     .Where(r=> r.idCliente == usuariologueado)
                                                     .Include(r => r.Cliente)
                                                     .Include(r => r.Restaurante)
-                                                    .Include(r=> r.ItemReserva) //?
+                                                    .Include(r=> r.ItemReserva)
+                                                    .OrderByDescending(p => p.Fecha)//?
                                                     .ToListAsync();
 
             // traemos la lista de platos
@@ -70,6 +72,9 @@ namespace Proyecto_Resto.Controllers
         // GET: Reservas de admi
         public async Task<IActionResult> IndexAdmin()  // no usamos todavia
         {            
+
+            // el administrador va a poder ver todos los pedidos
+
             // traemos las relaciones de foreing key
             var restoContext = await _context.Reservas                                                    
                                                     .Include(r => r.Cliente)

@@ -1,0 +1,72 @@
+﻿
+
+@model IEnumerable<Proyecto_Resto.Models.ViewModels.Informe1>
+
+    @{
+        ViewData["Title"] = "Informe de ganancias";
+    }
+
+    <h4>Reporte </h4>
+    <img src="~/img/6.png" width="80px"/>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fecha)
+                </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                Platos
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ganancia)
+            </th>
+                
+            </tr>
+        </thead>
+
+        <tbody class="fondoTd">
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                    @Html.DisplayFor(model => item.Fecha)
+                    </td>
+
+                    <td>
+                    @Html.DisplayFor(model => item.Cliente)
+                    </td>
+
+
+                    <td>
+                    
+                        @foreach (var i in item.ListaPlatos)
+                        {
+                            <p class="small">@i</p>
+                        }
+                    </td>
+
+                <td>
+                    $  @Html.DisplayFor(model => item.Total)
+                </td>
+
+                <td>
+                   $  @Html.DisplayFor(model => item.Ganancia)
+                </td>
+
+
+
+
+                </tr>
+                
+            }
+        </tbody>
+
+    </table>

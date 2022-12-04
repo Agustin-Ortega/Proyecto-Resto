@@ -3,8 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Reservas Confirmadas</h1>
+<br />
+<br />
+<br />
+<h4>Reservas Confirmadas</h4>
 
 @*<p>
     <a asp-action="Create">Create New</a>
@@ -30,7 +32,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="fondoTd">
 @foreach (var item in Model) {
         <tr>
             <td>

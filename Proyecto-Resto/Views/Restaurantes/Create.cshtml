@@ -12,7 +12,6 @@
 <div align="center" class="jumbotron">
 
 <h4>Nuevo Restaurante</h4>
-<hr />
 <div >
     <div >
         <form asp-action="Create">
@@ -21,9 +20,9 @@
                 <label asp-for="nombre" class="control-label"></label><br />
                 <input asp-for="nombre" class="caja" />
                 <span asp-validation-for="nombre" class="text-danger"></span>
-            </div>
+            </div><br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Añadir" class="btn btn-outline-dark my-3" />
             </div>
         </form>
     </div>
