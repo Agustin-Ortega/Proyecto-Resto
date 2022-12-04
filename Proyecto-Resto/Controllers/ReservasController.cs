@@ -19,16 +19,42 @@ namespace Proyecto_Resto.Controllers
             _context = context;
         }
 
+
+        public async Task<IActionResult> IndexReserva()
+        {
+            int usuariologueado = 1; // valor hardcodeado desp lo sacamos de identity
+            // traemos las relaciones de foreing key
+            var restoContext = await _context.Reservas
+                                                    .Where(r => r.idCliente == usuariologueado)
+                                                    .Include(r => r.Cliente)
+                                                    .Include(r => r.Restaurante)
+                                                    .Include(r => r.ItemReserva)
+                                                    .OrderByDescending(p => p.Fecha)//?
+                                                    .ToListAsync();
+
+            // traemos la lista de platos
+            foreach (var reserva in restoContext)
+            {
+                foreach (var item in reserva.ItemReserva)
+                {
+                    item.Plato = await _context.Platos.FindAsync(item.idPlato);
+                }
+            }
+
+            return View(restoContext);
+        }
+
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
             int usuariologueado = 1; // valor hardcodeado desp lo sacamos de identity
             // traemos las relaciones de foreing key
             var restoContext = await _context.Reservas
-                                                    .Where(r=> r.idCliente == usuariologueado)
+                                                    .Where(r => r.idCliente == usuariologueado)
                                                     .Include(r => r.Cliente)
                                                     .Include(r => r.Restaurante)
-                                                    .Include(r=> r.ItemReserva) //?
+                                                    .Include(r => r.ItemReserva)
+                                                    .OrderByDescending(p => p.Fecha)//?
                                                     .ToListAsync();
 
             // traemos la lista de platos
@@ -45,9 +71,12 @@ namespace Proyecto_Resto.Controllers
 
         // GET: Reservas de admi
         public async Task<IActionResult> IndexAdmin()  // no usamos todavia
-        {            
+        {
+
+            // el administrador va a poder ver todos los pedidos
+
             // traemos las relaciones de foreing key
-            var restoContext = await _context.Reservas                                                    
+            var restoContext = await _context.Reservas
                                                     .Include(r => r.Cliente)
                                                     .Include(r => r.Restaurante)
                                                     .Include(r => r.ItemReserva) //?
@@ -117,16 +146,22 @@ namespace Proyecto_Resto.Controllers
 
             Reserva reserva = new Reserva
             {
-                //idCliente = usuarioLogueado,
-                //Cliente = await _context.Clientes.FindAsync(usuarioLogueado),
+                idCliente = usuarioLogueado,
+                Cliente = await _context.Clientes.FindAsync(usuarioLogueado),
+                Fecha = new DateTime(),   //?
+                CantidadPersonas = 0,     //?
+                idRestaurante = null,        //?
+                Restaurante = null,       //?
                 ItemReserva = listaItem,
                 Total = total,
 
             };
 
-            if(await CrearReserva(reserva))
+            if (await CrearReserva(reserva))
             {
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                //return View(reserva);
+                return RedirectToAction("IndexReserva", "Reservas");
             }
 
             return RedirectToAction("Privacy", "Home");  // seria en caso de error
@@ -280,14 +315,14 @@ namespace Proyecto_Resto.Controllers
             {
                 _context.Reservas.Remove(reserva);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ReservaExists(int id)
         {
-          return _context.Reservas.Any(e => e.Id == id);
+            return _context.Reservas.Any(e => e.Id == id);
         }
 
         private double ObtenerTotal(List<ItemReserva> lista)
