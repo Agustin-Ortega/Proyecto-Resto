@@ -2,8 +2,21 @@ html {
   font-size: 14px;
 }
 
+body {
+    background-image: url(../img/fondo1.jpg);
+
+    
+    
+    background-position: -50rem -23rem ;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
 @media (min-width: 768px) {
-  html {
+    html {
     font-size: 16px;
   }
 }
@@ -16,3 +29,76 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+a{
+    color:antiquewhite;
+}
+footer {
+    background-color: rgba(19, 18, 18, 0.795);
+    color: antiquewhite;
+    margin-top: auto;
+    padding: 1rem 0;
+    text-align: center;
+    /*margin-top: auto;*/
+    /*    position:absolute;
+    bottom: 0;
+    width:100rem;*/
+}
+
+
+
+.tabla {
+    margin: 0 auto;
+    /* border: outset 1px rgba(169, 14, 9, 0.678); */
+    /*   border: outset 1px rgba(255, 255, 255, 0.486); */
+    width: 800px;
+    border-collapse: collapse;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.055);
+}
+
+th {
+    /*   border: solid 1px rgba(255, 127, 80, 0.212); */
+
+    font-size: large;
+    color: rgba(255, 255, 255, 0.74);
+    padding: 1px;
+    text-align: center;
+}
+
+.columna:hover {
+    transition: all 1.2s ease;
+    /* background-color: #6d0909c7; */
+    background-color: rgba(255, 255, 255, 0.466);
+    cursor: pointer;
+}
+
+h3{
+    color: antiquewhite;
+}
+
+.jumbotron {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: rgba(19, 18, 18, 0.795);
+    color: antiquewhite;
+    margin: auto 0;
+    text-align: center;
+}
+
+.caja {
+/*    margin-top: 8px;
+    border: auto;*/
+    background-color: #131212;
+    color: rgb(167, 164, 164);
+    border-collapse: collapse;
+    border-radius: 7px;
+    opacity: 0.7;
+    width: 300px;
+}
+
+ .caja:hover {
+       transition: all 0.5s ease;
+       box-shadow: 1px 1px 7px rgb(255, 255, 255);
+  }

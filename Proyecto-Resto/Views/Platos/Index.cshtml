@@ -4,61 +4,70 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.descricpion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.precio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.stock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Imagen)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.descricpion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.precio)
-            </td>
-            <td>
-                @if(item.stock>0){
-                        @Html.DisplayFor(modelItem => item.stock)
-                }else{
-                    <p class="text-danger">Sin Stock</p>
+    <br />
+    <br />
+    <h3>Platos del Menu</h3>
+
+    <p>
+        <a asp-action="Create">Añadir nuevo Plato</a>
+    </p><br /><br />
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.descricpion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.precio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.stock)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Imagen)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.descricpion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.precio)
+                        </td>
+                        <td>
+                            @if (item.stock > 0)
+                            {
+                                @Html.DisplayFor(modelItem => item.stock)
+                            }
+                            else
+                            {
+                                <p class="text-danger">Sin Stock</p>
+                            }
+
+                        </td>
+                        <td>
+                            <img src="@item.Imagen" height="75" alt="@item.nombre" />
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Modificar</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">info</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                        </td>
+                    </tr>
                 }
-                
-            </td>
-            <td>
-                    <img src="@item.Imagen" height="75" alt="@item.nombre" />
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    
