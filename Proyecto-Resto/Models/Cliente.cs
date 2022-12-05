@@ -23,19 +23,14 @@ namespace Proyecto_Resto.Models
         public string Apellido { get;   set; }
 
 
-        [Required(ErrorMessage = MsgError.Requerido)]
-        [StringLength(10, MinimumLength = 6, ErrorMessage = MsgError.StringMaxMin)]
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "Correo Electronico")]
-        public string Email { get;  set; }
+        //[Required(ErrorMessage = MsgError.Requerido)]
+        //[StringLength(18, MinimumLength = 4, ErrorMessage = MsgError.StringMaxMin)]
+        //[DataType(DataType.EmailAddress)]
+        //[Display(Name = "Email")]
+        public string? Email { get;  set; }
 
 
-        [Required(ErrorMessage = MsgError.Requerido)]
-        [StringLength(10, MinimumLength = 6, ErrorMessage = MsgError.StringMaxMin)]
-        [DataType(DataType.Password)]
-        public string password { get;  set; }
-
-        public bool isAdmin { get; set; } = false;
+        //public bool isAdmin { get; set; } = false;
 
         public List<Reserva>? reservas { get;  set; }
 

@@ -24,12 +24,17 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">                                    
                     <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+                    <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="PersonalDetail">Mis Datos</a>
                     <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="Index">Reservas</a>
                     <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Informe1">Informe</a>
                     @*<a class="nav-link disabled"></a>*@
                 </div>
-                <partial name="_LoginPartial" />
+                
             </div>
+           
+                <partial name="_LoginPartial" />
+            
+            
         </nav>
        
         <br />
@@ -67,7 +72,7 @@
     <img src="~/img/bebidas.jpg" class="d-block w-100" width="100px" height="400px">*@
     <footer>
 
-            &copy; 2022 - Resto ORT - Agustin Ortega <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022   |   Resto ORT - Agustin Ortega   | <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
        
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

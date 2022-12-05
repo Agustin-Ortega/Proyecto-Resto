@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,18 +16,49 @@ namespace Proyecto_Resto.Controllers
     public class ClientesController : Controller
     {
         private readonly RestoContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ClientesController(RestoContext context)
+
+        public ClientesController(RestoContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Clientes
+        //[Authorize(Roles = "ADMIN")]
+
         [HttpGet("Clientes/Inicio")]
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Clientes.ToListAsync());
+             var lista = await _context.Clientes.ToListAsync();
+            return View(lista);
         }
+
+
+        //[Authorize(Roles = "CLIENTE")]
+        [HttpGet("Clientes/DetallePersonal")]
+        public async Task<IActionResult> PersonalDetail()
+        {
+
+            var us = User;
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user ==null || _context.Clientes ==null)
+            {
+                return NotFound();
+            }
+            var cliente = await _context.Clientes.Where(c => c.Email.ToUpper() == user.NormalizedEmail).FirstOrDefaultAsync();
+
+            if(cliente == null)
+            {
+                return NotFound();
+            }
+            return View("Details", cliente);
+        }
+
+
+
+
 
         // GET: Clientes/Details/5
         [HttpGet("Clientes/Detalle/{id?}")]
@@ -46,10 +79,19 @@ namespace Proyecto_Resto.Controllers
             return View(cliente);
         }
 
+
+
         // GET: Clientes/Create
-        public IActionResult Create()
+        public IActionResult Create(IdentityUser? user)
         {
-            return View();
+            if (user == null) return RedirectToAction("Privacy", "Home");            
+
+            Cliente cliente = new Cliente
+            {
+                Email = user.Email,
+            };
+
+            return View(cliente);
         }
 
         // POST: Clientes/Create
@@ -57,24 +99,29 @@ namespace Proyecto_Resto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Email,password,isAdmin")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Email")] Cliente cliente)
         {
-            if (ModelState.IsValid)
+
+
+
+            if (cliente.Email != null && cliente.Nombre!=null )
             {
-               //if (cliente.Apellido == "ortega")
-               //{
-               //    cliente.isAdmin = true;
-               //}
-               //RedirectToAction("Privacy", "Home");
-               //var cliente2 = await _context.Clientes.OrderByDescending(e => e.Id).FirstOrDefaultAsync();
-
-                
-
-
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+
+            //if (ModelState.IsValid)
+            //{
+
+            //    _context.Add(cliente);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+
+
+            //}
+
             return View(cliente);
         }
 
@@ -99,7 +146,7 @@ namespace Proyecto_Resto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Email,password,isAdmin")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Email")] Cliente cliente)
         {
             if (id != cliente.Id)
             {
