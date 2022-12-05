@@ -28,21 +28,24 @@ namespace Proyecto_Resto.Areas.Identity.Pages.Account
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _rolManager;
+        
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            RoleManager<IdentityRole> roleManager)
+            
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            _rolManager = roleManager;  
+            
         }
 
         /// <summary>
@@ -102,6 +105,34 @@ namespace Proyecto_Resto.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+
+            // si no existe el rol lo crea aca || corre por primera vez q los roles no existan
+
+            if (!_rolManager.RoleExistsAsync("ADMIN").GetAwaiter().GetResult())
+            {
+                _rolManager.CreateAsync(new IdentityRole("ADMIN")).GetAwaiter().GetResult();
+            }
+
+            if (!_rolManager.RoleExistsAsync("CLIENTE").GetAwaiter().GetResult())
+            {
+                _rolManager.CreateAsync(new IdentityRole("CLIENTE")).GetAwaiter().GetResult();
+            }
+
+
+            IdentityUser user = CreateUser();
+
+            string email, usuario;
+            email = usuario = "admin@ort.com";
+            await _userStore.SetUserNameAsync(user,email, CancellationToken.None);
+            await _emailStore.SetEmailAsync(user, usuario, CancellationToken.None);
+            var resultado = await _userManager.CreateAsync(user, "Password1!");
+
+            if (resultado.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "ADMIN");
+            }
+
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -120,29 +151,36 @@ namespace Proyecto_Resto.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    //_logger.LogInformation("User created a new account with password.");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+                    //var userId = await _userManager.GetUserIdAsync(user);
+                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    //var callbackUrl = Url.Page(
+                    //    "/Account/ConfirmEmail",
+                    //    pageHandler: null,
+                    //    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                    //    protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    //{
+                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    //}
+                    //else
+                    //{
+                    //    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //    return LocalRedirect(returnUrl);
+                    //}
+
+                    // le damos un rol de cliente
+                    await _userManager.AddToRoleAsync(user, "CLIENTE");
+
+                    // redirecciono a controlador de clientes
+                    return RedirectToAction("Create", "Clientes", user);
+
                 }
                 foreach (var error in result.Errors)
                 {

@@ -17,6 +17,9 @@
         <div >
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @*<input asp-for="Email" class="form-control" hidden />*@
+                <input type="hidden" asp-for="Email" />
+                
                 <div class="form-group">
                     <label asp-for="Nombre" class="control-label"></label><br />
                     <input asp-for="Nombre" class="caja" />
@@ -24,27 +27,11 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Apellido" class="control-label"></label><br />
-                    <input asp-for="Apellido" class="caja"/>
+                    <input asp-for="Apellido" class="caja" />
                     <span asp-validation-for="Apellido" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label">Email</label><br />
-                    <input asp-for="Email" class="caja" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="password" class="control-label"></label><br />
-                    <input asp-for="password" class="caja" />
-                    <span asp-validation-for="password" class="text-danger"></span>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <br />
-                        <input class="form-check-input" asp-for="isAdmin" /> @Html.DisplayNameFor(model => model.isAdmin)
-                    </label>
-                </div>
 
-                @*<input asp-for="fecha" class="form-control" hidden/>   LO USAMOS PARA MANDAR LA FECHA POR DEFECTO SIN LLENAR EL FORM Y Q SE SETEE EN EL CONTROLLER *@
+
 
                 <div class="form-group">
                     <input type="submit" value="Crear" class="btn btn-outline-dark my-3" />
