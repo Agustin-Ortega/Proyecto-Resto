@@ -5,7 +5,7 @@
     ViewData["Title"] = "Ingrese su Usuario";
 }
 
-<h1>@ViewData["Title"]</h1>
+@*<h1>@ViewData["Title"]</h1>*@
 <div >
     <div class="login" align="center" >
         <section>
@@ -13,6 +13,10 @@
                 
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                   <img src="~/img/7.png" width="80px" />
+                    <h2>Ingrese su Usuario</h2>
+
                 <div >
                     <label asp-for="Input.Email" class="form-label"></label><br />
                     <input asp-for="Input.Email" class="caja" autocomplete="username" aria-required="true" />
@@ -34,7 +38,7 @@
                     </div>
                 </div><br />
                 <div>
-                    <button id="login-submit" onclick="ingreso" type="submit" class="w-80 btn btn-outline-danger">Ingresar</button>
+                    <button id="login-submit" onclick="ingreso()" type="submit" class="w-80 btn btn-outline-danger">Ingresar</button>
                 </div>
          @*       <div>
                     <p>

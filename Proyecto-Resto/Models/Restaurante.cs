@@ -9,5 +9,12 @@ namespace Proyecto_Resto.Models
         [Required]
         [Display(Name ="Restaurante")]
         public string nombre { get;  set; }
+
+        [Display(Name ="Foto del Restaurante")]
+        public string? Imagen { get; set; }
+
+        public string? Direccion { get; set; }
+
+        public string? Url { get; set; }
     }
 }

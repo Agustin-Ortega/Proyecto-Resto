@@ -23,9 +23,13 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
 
-                    @if (User.IsInRole("CLIENTE") || User.IsInRole("ADMIN"))
+                    @if (User.IsInRole("ADMIN"))
                         {
                         <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+                        <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="IndexAdmin">Reservas</a>
+                    }
+                    else if (User.IsInRole("CLIENTE"))
+                    {
                         <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="PersonalDetail">Mis Datos</a>
                         <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="Index">Reservas</a>
                     }
@@ -33,6 +37,21 @@
                     @*<a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Informe1">Informe</a>       *@             
                 </div>
 
+                <img style="padding-left:4rem; width: 98px;" src="~/img/8.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/9.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/10.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/11.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/12.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/17.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/13.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/14.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/15.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/16.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/18.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/19.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/20.png">
+                <img style="padding-left:4rem; width: 98px;" src="~/img/21.png">                
+                <img style="padding-left:4rem; width: 98px;" src="~/img/23.png">
             </div>       
 
             @if (User.IsInRole("CLIENTE"))

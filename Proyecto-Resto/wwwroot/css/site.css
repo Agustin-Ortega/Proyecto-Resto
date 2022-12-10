@@ -126,3 +126,19 @@ h3{
     background-color: rgba(0, 0, 0, 0.623);
     padding-bottom: 2rem;
 }
+
+.card {
+    background-color: rgba(0, 0, 0, 1);
+    color:antiquewhite
+}
+
+
+.datos {
+    background-color: rgba(240, 248, 255, 0.349);
+    color:black;
+}
+
+.imgDatos{
+    margin: 0 auto;
+
+}

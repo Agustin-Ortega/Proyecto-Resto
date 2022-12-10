@@ -9,10 +9,73 @@
     <br />
     <h3>Platos del Menu</h3>
 
+    @if (User.IsInRole("ADMIN")){
     <p>
         <a asp-action="Create">Añadir nuevo Plato</a>
-    </p><br /><br />
+    </p>
+    <br />
+    <br />
 
+    }
+
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+        <td>
+            <div class="card" style="width: 18rem;">
+                <img src="@item.Imagen" class="card-img-top" alt="...">
+                @*<img src="@item.Imagen" height="150px" width="150px" alt="@item.nombre" />*@
+                <div class="card-body">
+                    @Html.DisplayFor(modelItem => item.nombre)<br>
+                    @Html.DisplayFor(modelItem => item.descricpion)<br>
+                    @if (User.IsInRole("ADMIN"))
+                    {
+                        <p style="color:aqua">Costo base: @Html.DisplayFor(modelItem => item.Costo)</p>
+                    }
+                    
+                    <p style="color:red">Precio:  $@Html.DisplayFor(modelItem => item.precio)</p>
+
+
+                    @if (item.stock > 0)
+                    {
+                        @if (User.IsInRole("ADMIN"))
+                        {
+                            <p>Stock : @Html.DisplayFor(modelItem => item.stock)</p>                             
+                        }
+                        else
+                        {
+                            <p style="color:chartreuse" class="text">Disponible</p>
+
+                        }
+
+                    }
+                    else
+                    {
+                        <p style="color:red" class="text-danger">Sin Stock</p>                        
+                    }
+
+                    @if (User.IsInRole("ADMIN"))
+                    {
+                        <hr>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Modificar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">info</a><br />
+                        <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+
+                    }
+
+                </div>
+            </div>
+        </td>
+
+    }
+</table>
+
+    
+
+
+
+    @*
         <table class="table">
             <thead>
                 <tr>
@@ -22,9 +85,12 @@
                     <th>
                         @Html.DisplayNameFor(model => model.descricpion)
                     </th>
+                    @if (User.IsInRole("ADMIN")){
                     <th>
                         @Html.DisplayNameFor(model => model.Costo)
                     </th>
+
+                    }
                     <th>
                         @Html.DisplayNameFor(model => model.precio)
                     </th>
@@ -47,33 +113,48 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.descricpion)
                         </td>
+                        
+                        @if(User.IsInRole("ADMIN"))
+                        {
                         <td>
                             @Html.DisplayFor(modelItem => item.Costo)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.precio)
+                        }
+                        
+                        <td style="color:red">
+                          $  @Html.DisplayFor(modelItem => item.precio)
                         </td>
                         <td>
                             @if (item.stock > 0)
                             {
-                                @Html.DisplayFor(modelItem => item.stock)
+                                @if(User.IsInRole("ADMIN")){
+                                    @Html.DisplayFor(modelItem => item.stock)
+                                }
+                                else{
+                                <p  style="color:chartreuse" class="text">Disponible</p>
+                                }
+                                
                             }
                             else
                             {
-                                <p class="text-danger">Sin Stock</p>
+                        <p style="color:red" class="text-danger">Sin Stock</p>
                             }
 
                         </td>
                         <td>
                             <img src="@item.Imagen" height="75" alt="@item.nombre" />
                         </td>
+                        
+                        @if (User.IsInRole("ADMIN")){
                         <td>
+
                             <a asp-action="Edit" asp-route-id="@item.Id">Modificar</a> |
                             <a asp-action="Details" asp-route-id="@item.Id">info</a> |
                             <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
                         </td>
+                        }                                               
                     </tr>
                 }
             </tbody>
-        </table>
+        </table>*@
     

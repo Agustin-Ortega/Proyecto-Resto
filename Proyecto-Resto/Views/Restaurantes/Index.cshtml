@@ -9,16 +9,54 @@
 <br />
 <h3>Listado de Restaurantes</h3>
 
-<p>
-    <a asp-action="Create">Agregar nuevo Restaurante</a>
-</p>
+@if (User.IsInRole("ADMIN")){
+    <p>
+        <a asp-action="Create">Agregar nuevo Restaurante</a>
+    </p>
+}
+
+
+@foreach (var item in Model) {
+    <div align="center">    
+    <div class="card" style="width: 18rem;">
+        <img src= @item.Imagen class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">@item.nombre</h5>
+            <p class="card-text">@item.Direccion</p>
+            <a href=@item.Url class="btn btn-outline-info my-3">Ir al sitio</a><br>
+            @if (User.IsInRole("ADMIN"))
+            {
+
+                <a asp-action="Edit" asp-route-id="@item.Id">Modificar</a><br />
+                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+            }
+            
+        </div>
+            
+    </div>
+        <br><br>
+    </div>
+
+}
+
+
+
+
+
+
+@*
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.nombre)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagen)
+            </th>
         </tr>
     </thead>
     <tbody class="fondoTd">
@@ -27,12 +65,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.nombre)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Modificar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">info</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                    <img src="@item.Imagen" height="150" alt="@item.Imagen" />
             </td>
+            @if (User.IsInRole("ADMIN")){
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Modificar</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">info</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                    </td>
+            }
+            
         </tr>
 }
     </tbody>
 </table>
+*@
