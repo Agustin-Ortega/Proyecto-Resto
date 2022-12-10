@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace Proyecto_Resto.Controllers
     public class ReservasController : Controller
     {
         private readonly RestoContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ReservasController(RestoContext context)
+        public ReservasController(RestoContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
 
@@ -47,10 +50,14 @@ namespace Proyecto_Resto.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            int usuariologueado = 1; // valor hardcodeado desp lo sacamos de identity
+            //int usuariologueado = 1; // valor hardcodeado desp lo sacamos de identity
             // traemos las relaciones de foreing key
+
+
+            var user = await _userManager.GetUserAsync(User);
+
             var restoContext = await _context.Reservas
-                                                    .Where(r=> r.idCliente == usuariologueado)
+                                                    .Where(r=> r.Cliente.Email.ToUpper() == user.Email.Normalize())
                                                     .Include(r => r.Cliente)
                                                     .Include(r => r.Restaurante)
                                                     .Include(r=> r.ItemReserva)

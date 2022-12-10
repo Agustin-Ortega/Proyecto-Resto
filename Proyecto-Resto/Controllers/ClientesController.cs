@@ -25,34 +25,40 @@ namespace Proyecto_Resto.Controllers
             _userManager = userManager;
         }
 
-        //[Authorize(Roles = "ADMIN")]
-
+        //[Authorize(Roles = "ADMIN")]        
+        [Authorize]
         [HttpGet("Clientes/Inicio")]
         public async Task<IActionResult> Index()
         {
-             var lista = await _context.Clientes.ToListAsync();
-            return View(lista);
+        
+                var lista = await _context.Clientes.ToListAsync();
+                return View(lista);
+             
         }
 
 
         //[Authorize(Roles = "CLIENTE")]
         [HttpGet("Clientes/DetallePersonal")]
-        public async Task<IActionResult> PersonalDetail()
+        public async Task<IActionResult> PersonalDetail() 
         {
 
-            var us = User;
-
             var user = await _userManager.GetUserAsync(User);
-            if (user ==null || _context.Clientes ==null)
-            {
-                return NotFound();
-            }
-            var cliente = await _context.Clientes.Where(c => c.Email.ToUpper() == user.NormalizedEmail).FirstOrDefaultAsync();
+            //var user = "lpk@gmail.com";
+            
 
-            if(cliente == null)
+            if (user == null)
             {
                 return NotFound();
             }
+
+            var cliente = await _context.Clientes.Where(c => c.Email.ToUpper() == user.NormalizedEmail).FirstOrDefaultAsync();
+            //var cliente = await _context.Clientes.Where(c => c.Email.ToUpper() == user).FirstOrDefaultAsync();
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
             return View("Details", cliente);
         }
 
@@ -112,6 +118,7 @@ namespace Proyecto_Resto.Controllers
             }
 
 
+            // por alguna razon la validacion me aparece como valido el modelo pero al guardar los cambios se queda en la misma pagina
             //if (ModelState.IsValid)
             //{
 
@@ -220,7 +227,7 @@ namespace Proyecto_Resto.Controllers
 
 
         //VIEW MODEL DE ADMINISTRADOR
-
+        [Authorize(Roles ="ADMIN")]
         public async Task<IActionResult> Informe1()
         {
             var listaReservas = await _context.Reservas

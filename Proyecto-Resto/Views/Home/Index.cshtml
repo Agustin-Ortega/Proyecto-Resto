@@ -1,9 +1,51 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@*
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-*@
+
+<br />
+
+@*SUBMENU*@
+
+  
+
+<table class="tabla">
+
+    <tr class="fila">
+
+       
+        <th class="columna">
+            @if (User.IsInRole("CLIENTE"))
+            {
+                <a class="nav-link text-white" asp-area="" asp-controller="Platos" asp-action="Index">Ver Platos</a>
+            }
+            else if(User.IsInRole("ADMIN")){
+                <a class="nav-link text-white" asp-area="" asp-controller="Platos" asp-action="Index">Administrar Platos</a>
+            }
+            
+        </th>    
+        
+        <th class="columna">
+            <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="Index">Restaurantes</a>
+        </th>
+        <th class="columna">
+
+        </th>
+        <th class="columna">
+            <a class="nav-link text-white" asp-area="" asp-controller="ItemReservas" asp-action="Index">Hacer Reserva</a>
+        </th>
+        @if (User.IsInRole("ADMIN"))
+        {
+            <th>
+                <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Informe1">Informe de Ganancias</a>
+            </th>
+
+        }
+        
+    </tr>
+</table>
+
+@*CARRUSEL*@
+<br />
+<br />
+<img src="~/img/bebidas.jpg" class="d-block w-100" width="100px" height="400px">
+
