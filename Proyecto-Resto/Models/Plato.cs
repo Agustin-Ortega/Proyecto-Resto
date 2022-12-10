@@ -11,11 +11,11 @@ namespace Proyecto_Resto.Models
 
         
         [Required(ErrorMessage = MsgError.Requerido)]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = MsgError.StringMaxMin)]
+        [StringLength(20, MinimumLength = 4, ErrorMessage = MsgError.StringMaxMin)]
         public string nombre { get; set; }
 
         [Required(ErrorMessage = MsgError.Requerido)]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = MsgError.StringMaxMin)]
+        [StringLength(100, MinimumLength = 4, ErrorMessage = MsgError.StringMaxMin)]
         public string descricpion { get; set; }
 
         [Required]

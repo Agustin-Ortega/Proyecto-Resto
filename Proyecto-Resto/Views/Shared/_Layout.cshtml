@@ -11,9 +11,8 @@
 </head>
 <body> 
     <header>
-
+        @*<a class="nav-link disabled"></a>*@
         @*NAVBAR*@
-
 
         <nav class="navbar navbar-expand-lg navbar-light bg-dark">
              <img src="~/img/cafe.png" width="50px" height="50px" />
@@ -22,42 +21,39 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">                                    
-                    <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
-                    <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="PersonalDetail">Mis Datos</a>
-                    <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="Index">Reservas</a>
-                    <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Informe1">Informe</a>
-                    @*<a class="nav-link disabled"></a>*@
+                <div class="navbar-nav">
+
+                    @if (User.IsInRole("CLIENTE") || User.IsInRole("ADMIN"))
+                        {
+                        <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+                        <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="PersonalDetail">Mis Datos</a>
+                        <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="Index">Reservas</a>
+                    }
+
+                    @*<a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Informe1">Informe</a>       *@             
                 </div>
-                
-            </div>
-           
-                <partial name="_LoginPartial" />
-            
-            
+
+            </div>       
+
+            @if (User.IsInRole("CLIENTE"))
+            {
+                <a class="nav-link disabled">Perfil Cliente</a>
+            }
+            else if (User.IsInRole("ADMIN"))
+            {
+                <a class="nav-link disabled">Perfil Administrador</a>
+            }
+
+                <partial name="_LoginPartial" />                        
         </nav>
        
         <br />
 
-        @*SUBMENU*@
+        <container>
 
-           <table class="tabla">
-        
-        <tr class="fila">
-            <th class="columna">
-                        <a class="nav-link text-white" asp-area="" asp-controller="Platos" asp-action="Index">Platos</a>
-            </th>
-            <th class="columna">
-                        <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="Index">Restaurantes</a>
-                </th>
-            <th class="columna">
-                
-            </th>
-            <th class="columna">
-                        <a class="nav-link text-white" asp-area="" asp-controller="ItemReservas" asp-action="Index">Crear Reserva</a>
-            </th>
-            </tr>
-        </table>
+        </container>
+
+        @*SUBMENU*@
 
 
     </header>
@@ -66,10 +62,7 @@
             @RenderBody()
         </main>
     </div>
-@*    @*CARRUSEL
-    <br />
-    <br />
-    <img src="~/img/bebidas.jpg" class="d-block w-100" width="100px" height="400px">*@
+
     <footer>
 
             &copy; 2022   |   Resto ORT - Agustin Ortega   | <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

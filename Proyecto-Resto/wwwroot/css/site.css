@@ -115,3 +115,14 @@ h3{
        transition: all 0.5s ease;
        box-shadow: 1px 1px 7px rgb(255, 255, 255);
   }
+
+ .incio{
+     background-color:antiquewhite;
+     border-radius:8px;
+ }
+
+.login {
+    color: antiquewhite;
+    background-color: rgba(0, 0, 0, 0.623);
+    padding-bottom: 2rem;
+}
