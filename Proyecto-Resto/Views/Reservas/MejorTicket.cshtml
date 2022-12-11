@@ -1,0 +1,43 @@
+﻿@model Proyecto_Resto.Models.Reserva
+
+@{
+    ViewData["Title"] = "Details";
+}
+<h4 style="color:antiquewhite">Mejor Ticket de Reserva</h4>
+<br />
+<div class="card" align="center"><br />
+    
+    <dl class="row">
+        <dt >
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente)
+        </dt>
+        <dd >
+            @Html.DisplayFor(model => model.Cliente.Apellido)
+        </dd>
+        <dt >
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+        <dd  style="color: chartreuse">
+            $  @Html.DisplayFor(model => model.Total)
+        </dd>
+        <dt >
+            @Html.DisplayNameFor(model => model.Restaurante)
+        </dt>
+        <dd >
+            @Html.DisplayFor(model => model.Restaurante.nombre)
+        </dd>
+        <dd >
+            <img src="@Model.Restaurante.Imagen" width="400px"/><br />
+            <a href=@Model.Restaurante.Url class="btn btn-outline-danger my-3">Ir al sitio</a><br>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="text-white" asp-area="" asp-controller="Home" asp-action="Index">volver</a>
+</div>
