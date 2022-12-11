@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_Resto.Context;
 using Proyecto_Resto.Models;
+using Proyecto_Resto.Models.ViewModels;
 
 namespace Proyecto_Resto.Controllers
 {
@@ -77,7 +80,7 @@ namespace Proyecto_Resto.Controllers
         }
 
         // GET: Reservas de admi
-        public async Task<IActionResult> IndexAdmin()  // no usamos todavia
+        public async Task<IActionResult> IndexAdmin() 
         {            
 
             // el administrador va a poder ver todos los pedidos
@@ -343,5 +346,50 @@ namespace Proyecto_Resto.Controllers
 
             return total;
         }
+
+        public async Task<IActionResult> ObtenerTicketMayor2()
+        {
+
+            var restoContext = await _context.Reservas
+                                                    .Include(r => r.Cliente)
+                                                    .Include(r => r.Restaurante)
+                                                    .Include(r => r.ItemReserva)
+                                                    .ThenInclude(p => p.Plato)
+                                                    .OrderByDescending(p => p.Fecha)
+                                                    .ToListAsync();
+
+            Reserva mayor = null;
+            double total = 0;
+
+            foreach (var item in restoContext)
+            {
+                if (item.Total >= total)
+                {
+                    total = item.Total;
+                    mayor = item;
+                }
+
+            }
+
+            return View("MejorTicket", mayor);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

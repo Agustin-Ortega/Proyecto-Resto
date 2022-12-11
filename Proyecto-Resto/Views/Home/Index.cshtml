@@ -7,13 +7,14 @@
 @*SUBMENU*@
 
 @if (User.IsInRole("CLIENTE") || User.IsInRole("ADMIN"))
-            {
+{
     <table class="tabla">
 
         <tr class="fila">
 
 
-            @if (User.IsInRole("CLIENTE")){
+            @if (User.IsInRole("CLIENTE"))
+            {
 
 
                 <th class="columna">
@@ -21,32 +22,39 @@
                 </th>
 
 
-                    <th class="columna">
-                <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="Index">Ver Restaurantes</a>
-            </th>
+                <th class="columna">
+                    <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="Index">Ver Restaurantes</a>
+                </th>
 
-                  <th class="columna">
-                <a class="nav-link text-white" asp-area="" asp-controller="ItemReservas" asp-action="Index">Hacer Reserva</a>
-            </th>
+                <th class="columna">
+                    <a class="nav-link text-white" asp-area="" asp-controller="ItemReservas" asp-action="Index">Hacer Reserva</a>
+                </th>
 
             }
-            else if(User.IsInRole("ADMIN")){
+            else if (User.IsInRole("ADMIN"))
+            {
                 <th class="columna">
                     <a class="nav-link text-white" asp-area="" asp-controller="Platos" asp-action="Index">Administrar Platos</a>
                 </th>
-                 <th class="columna">
-                <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="Index">Restaurantes</a>
-            </th>
+                <th class="columna">
+                    <a class="nav-link text-white" asp-area="" asp-controller="Restaurantes" asp-action="Index">Restaurantes</a>
+                </th>
 
-            <th>
+                <th>
                     <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Informe1">Informe de Ganancias</a>
                 </th>
+
+                <th>
+                    <a class="nav-link text-white" asp-area="" asp-controller="Reservas" asp-action="ObtenerTicketMayor2">Mejor Reserva</a>
+                </th>
+
+                
 
             }
 
         </tr>
     </table>
-            }
+}
 
 
 

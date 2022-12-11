@@ -25,7 +25,7 @@ namespace Proyecto_Resto.Controllers
             _userManager = userManager;
         }
 
-        //[Authorize(Roles = "ADMIN")]        
+        [Authorize(Roles = "ADMIN")]        
         [Authorize]
         [HttpGet("Clientes/Inicio")]
         public async Task<IActionResult> Index()
@@ -37,7 +37,7 @@ namespace Proyecto_Resto.Controllers
         }
 
 
-        //[Authorize(Roles = "CLIENTE")]
+        [Authorize(Roles = "CLIENTE")]
         [HttpGet("Clientes/DetallePersonal")]
         public async Task<IActionResult> PersonalDetail() 
         {
@@ -114,7 +114,7 @@ namespace Proyecto_Resto.Controllers
             {
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
 
 
