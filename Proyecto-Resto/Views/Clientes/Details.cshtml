@@ -4,41 +4,36 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Cliente</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Apellido)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Apellido)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+<div align="center">
+    <h1>Informacion del Usuario</h1>
+    <div class="card" style="width: 18rem;" align="center">
+    <img src="~/img/cafe.png" class="imgDatos"  width="100px">
+  <div class="card-body">
+        Nombre : @Html.DisplayFor(model => model.Nombre) <br />
+        Apellido : @Html.DisplayFor(model => model.Apellido)<br />
+        Email : @Html.DisplayFor(model => model.Email)<br /><br /><br />
+            @if (User.IsInRole("CLIENTE"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
 
-        </dd>
-    </dl>
+            
+                <a asp-controller="Home" asp-action="Index">Salir</a>
+
+            }
+            else if (User.IsInRole("ADMIN"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+
+                
+                <a asp-controller="Home" asp-action="Index">Salir</a>
+
+                <br />
+                <a asp-action="Index">volver</a>
+            }
+  </div>
 </div>
-<div>
 
-    @if (User.IsInRole("CLIENTE"))
-    {
-        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
-        <a asp-controller="Home" asp-action="Index">Salir</a>
-
-    }
-    <a asp-action="Index">volver</a>
 </div>
+
+

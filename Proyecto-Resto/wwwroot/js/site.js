@@ -24,3 +24,13 @@ function cargarTarjeta() {
     })
 }
 
+
+function ingreso() {
+    alert("Ingresando a Resto ORT")
+}
+
+
+function logout() {
+    alert("Lo esperamos nuevamente")
+}
+
