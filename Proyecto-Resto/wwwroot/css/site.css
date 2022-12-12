@@ -1,10 +1,11 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    
 }
 
 body {
     background-image: url(../img/fondo1.jpg);
-
+    background-attachment: fixed;
     
     
     background-position: -50rem -23rem ;
@@ -70,6 +71,10 @@ th {
     text-align: center;
 }
 
+td{
+    text-align:center;
+}
+
 .columna:hover {
     transition: all 1.2s ease;
     /* background-color: #6d0909c7; */
@@ -95,7 +100,7 @@ h3{
 #jb2 {
     font-size: small;
     color: antiquewhite;
-    background-color: rgba(0, 0, 0, 0.623);
+    background-color: rgba(0, 0, 0, 0.723);
     padding-bottom: 2rem;
     padding-top: 2rem;
 }
@@ -133,12 +138,24 @@ h3{
 }
 
 
+.card2 {
+    /*background-color: rgb(173, 173, 173);
+    color: black;*/
+    background-color: rgba(73, 8, 8, 0.80);
+    color: antiquewhite;
+}
+
+
 .datos {
     background-color: rgba(240, 248, 255, 0.349);
-    color:black;
+    color: black;
 }
 
 .imgDatos{
     margin: 0 auto;
 
+}
+
+.menu {
+    background-color: rgba(0, 0, 0, 1);
 }

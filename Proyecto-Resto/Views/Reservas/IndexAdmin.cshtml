@@ -6,13 +6,13 @@
 <br />
 <br />
 <br />
-<h4>Reservas Confirmadas</h4>
+<h4 style="color:antiquewhite">Reservas Confirmadas</h4>
 
 @*<p>
     <a asp-action="Create">Create New</a>
 </p>*@
 <table class="table">
-    <thead>
+    <thead style="background-color:black">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
@@ -29,7 +29,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Restaurante)
             </th>
-            <th></th>
+            <th>
+                Menu
+            </th>
+            <th>
+                Opciones
+            </th>
         </tr>
     </thead>
     <tbody class="fondoTd">
@@ -57,7 +62,7 @@
                         <p class="small">@i.Plato.nombre</p>
                     }
                 </td>
-                <td>
+                <td style="color:aqua">
                     <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Info</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
@@ -66,3 +71,4 @@
         }
     </tbody>
 </table>
+<a class="text-white" asp-area="" asp-controller="Home" asp-action="Index">volver</a>
