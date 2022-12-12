@@ -35,6 +35,7 @@
             <div class="col-md-4 text-center">
                 <div class="card">
                     <img src="@item.Plato.Imagen" class="card-img-top" alt="@item.Plato.nombre" height="250" />
+
                     <div class="card-body">
                         <h5 class="card-title">@item.Plato.nombre</h5>
                         <p class="card-text">@item.Plato.descricpion</p>
@@ -52,8 +53,9 @@
         <div>
             <h4>Importe total del Menu</h4>
             <p class="card-text">$ @total.ToString()</p>
-                <a class="btn btn-outline-danger my-3" asp-controller="Reservas" asp-action="Create">Confirmar Menu</a>
+                <a class="btn btn-outline-info my-3" asp-controller="Reservas" asp-action="Create">Confirmar Menu</a>
         </div>
     </div>
 </div>
 </div>
+<a class="text-white" asp-area="" asp-controller="Home" asp-action="Index">volver</a>

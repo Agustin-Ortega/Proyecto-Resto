@@ -1,22 +1,20 @@
-﻿
+﻿@model IEnumerable<Proyecto_Resto.Models.ViewModels.Informe1>
 
-@model IEnumerable<Proyecto_Resto.Models.ViewModels.Informe1>
-
-    @{
-        ViewData["Title"] = "Informe de ganancias";
-    }
-    <div align="center">
+@{
+    ViewData["Title"] = "Informe de ganancias";
+}
+<div align="center">
     <h4 style="color:antiquewhite">Reporte </h4>
     <img src="~/img/6.png" width="80px" />
-    </div>
+</div>
 
-<a class="text-white" asp-area="" asp-controller="Home" asp-action="Index">volver</a>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Fecha)
-                </th>
+
+<table class="table">
+    <thead style="background-color:black">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
 
             <th>
                 @Html.DisplayNameFor(model => model.Cliente)
@@ -30,46 +28,47 @@
             <th>
                 @Html.DisplayNameFor(model => model.Ganancia)
             </th>
-                
-            </tr>
-        </thead>
 
-        <tbody class="fondoTd">
+        </tr>
+    </thead>
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
+    <tbody class="fondoTd">
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
                     @Html.DisplayFor(model => item.Fecha)
-                    </td>
+                </td>
 
-                    <td>
+                <td>
                     @Html.DisplayFor(model => item.Cliente)
-                    </td>
+                </td>
 
 
-                    <td>
-                    
-                        @foreach (var i in item.ListaPlatos)
-                        {
-                            <p class="small">@i</p>
-                        }
-                    </td>
+                <td>
+
+                    @foreach (var i in item.ListaPlatos)
+                    {
+                        <p class="small">@i</p>
+                    }
+                </td>
 
                 <td style="color:red">
                     $  @Html.DisplayFor(model => item.Total)
                 </td>
 
                 <td style="color:chartreuse">
-                   $  @Html.DisplayFor(model => item.Ganancia)
+                    $  @Html.DisplayFor(model => item.Ganancia)
                 </td>
 
 
 
 
-                </tr>
-                
-            }
-        </tbody>
+            </tr>
 
-    </table>
+        }
+    </tbody>
+
+</table>
+<a class="text-white" asp-area="" asp-controller="Home" asp-action="Index">volver</a>

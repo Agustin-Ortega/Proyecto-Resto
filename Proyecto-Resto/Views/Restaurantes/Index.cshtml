@@ -3,10 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-<br />
-<br />
-<br />
-<br />
+
 <h3>Listado de Restaurantes</h3>
 <a class="text-white" asp-area="" asp-controller="Home" asp-action="Index">volver</a>
 
@@ -18,24 +15,27 @@
 }
 
 
-@foreach (var item in Model) {
-    <div align="center">    
-    <div class="card" style="width: 18rem;">
-        <img src= @item.Imagen class="card-img-top">
-        <div class="card-body">
-            <h5 class="card-title">@item.nombre</h5>
-            <p class="card-text">@item.Direccion</p>
-            <a href=@item.Url class="btn btn-outline-info my-3">Ir al sitio</a><br>
-            @if (User.IsInRole("ADMIN"))
-            {
+@foreach (var item in Model)
+{
+    <div align="center">
+        <div class="card" style="width: 18rem;">
+            <img src=@item.Imagen class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">@item.nombre</h5>
+                <p class="card-text">@item.Direccion</p>
+                <a href=@item.Url class="btn btn-outline-info my-3">Ir al sitio</a><br>
+                @if (User.IsInRole("ADMIN"))
+                {
 
-                <a asp-action="Edit" asp-route-id="@item.Id">Modificar</a><br />
-                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
-            }
-            
+                    <a asp-action="Edit" asp-route-id="@item.Id">Modificar</a>
+
+                    <br />
+                    <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                }
+
+            </div>
+
         </div>
-            
-    </div>
         <br><br>
     </div>
 

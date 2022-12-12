@@ -6,75 +6,57 @@
 <br />
 <br />
 <br />
-<h4>Menu</h4>
+<h4 style="color:antiquewhite">Menu</h4>
 
 
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
+
 <table class="table">
-    <thead>
+    <thead style="background-color:black">
         <tr>
-            <th>
-              
+    @*        <th>
+
                 @Html.DisplayNameFor(model => model.Fecha)
             </th>
-            @* <th>
-            @Html.DisplayNameFor(model => model.CantidadPersonas)
-            </th>*@
-            @*   <th>
-            @Html.DisplayNameFor(model => model.Cliente)
-            </th>*@
+*@
             <th>
                 @Html.DisplayNameFor(model => model.Total)
             </th>
-            @*  <th>
-            @Html.DisplayNameFor(model => model.Restaurante)
-            </th>*@
-            <th></th>
+            <th>
+                Menu
+            </th>
+            <th>
+                Opciones
+            </th>
         </tr>
     </thead>
-   <tbody class="fondoTd">
+    <tbody class="fondoTd">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
-                </td>
-                @*
-            <td>
+            @if(item.isProcessed==false){
+                <tr>
+             @*       <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>*@
+                    <td>
+                        $ @Html.DisplayFor(modelItem => item.Total)
+                    </td>
+                    <td>
 
-            @Html.DisplayFor(modelItem => item.CantidadPersonas)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.Cliente.Apellido) @Html.DisplayFor(modelItem => item.Cliente.Nombre)
-            </td>*@
-                <td>
-                   $ @Html.DisplayFor(modelItem => item.Total)
-                </td>
-                @*      <td>
-            @Html.DisplayFor(modelItem => item.Restaurante.nombre)
-            </td>*@
-                <td>                    
-           
-                    @foreach (var i in item.ItemReserva)
-                    {
+                        @foreach (var i in item.ItemReserva)
+                        {
+                            <p class="small">@i.Plato.nombre</p>
+                        }
 
-                        
-                         <p class="small">@i.Plato.nombre</p>
-
-
-                    }
-                       
-                    
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Generar Reserva</a>
-                    <img src="~/img/5.png" width="60px"/>
-                    |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
-                </td>
-            </tr>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Generar Reserva</a>
+                        <img src="~/img/5.png" width="60px" />
+                        |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                    </td>
+                </tr>
+            }
+        
         }
     </tbody>
 </table>

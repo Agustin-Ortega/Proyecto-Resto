@@ -28,14 +28,13 @@ namespace Proyecto_Resto.Controllers
 
         public async Task<IActionResult> IndexReserva()
         {
-            int usuariologueado = 1; // valor hardcodeado desp lo sacamos de identity
+             int usuariologueado = 1; // valor hardcodeado desp lo sacamos de identity
             // traemos las relaciones de foreing key
             var restoContext = await _context.Reservas
                                                     .Where(r => r.idCliente == usuariologueado)
                                                     .Include(r => r.Cliente)
                                                     .Include(r => r.Restaurante)
-                                                    .Include(r => r.ItemReserva)
-                                                    .OrderByDescending(p => p.Fecha)//?
+                                                    .Include(r => r.ItemReserva)                                                    
                                                     .ToListAsync();
 
             // traemos la lista de platos
@@ -63,8 +62,8 @@ namespace Proyecto_Resto.Controllers
                                                     .Where(r=> r.Cliente.Email.ToUpper() == user.Email.Normalize())
                                                     .Include(r => r.Cliente)
                                                     .Include(r => r.Restaurante)
-                                                    .Include(r=> r.ItemReserva)
-                                                    .OrderByDescending(p => p.Fecha)//?
+                                                    .Include(r=> r.ItemReserva)                                                    
+                                                    .OrderByDescending(p => p.Fecha)// listamos las ultimas
                                                     .ToListAsync();
 
             // traemos la lista de platos
@@ -89,7 +88,8 @@ namespace Proyecto_Resto.Controllers
             var restoContext = await _context.Reservas                                                    
                                                     .Include(r => r.Cliente)
                                                     .Include(r => r.Restaurante)
-                                                    .Include(r => r.ItemReserva) //?
+                                                    .Include(r => r.ItemReserva)
+                                                    .OrderByDescending(p => p.Fecha)//?
                                                     .ToListAsync();
 
             // traemos la lista de platos
@@ -135,6 +135,16 @@ namespace Proyecto_Resto.Controllers
         {
 
             int usuarioLogueado = 1;  //  valor hardcodeado desp lo sacamos de identity
+            //var user = await _userManager.GetUserAsync(User);
+
+            //var user = await _userManager.GetUserAsync(User);
+            //Cliente cliente = null;
+            //if (user != null)
+            //{
+            //    cliente = await _context.Clientes.FindAsync(user);
+            //}
+
+
 
             // creo la lista de item reservas
 
@@ -154,9 +164,12 @@ namespace Proyecto_Resto.Controllers
 
             // creamos el objeto reserva
 
+            //Cliente c = await _context.Clientes.FindAsync(user);
+
             Reserva reserva = new Reserva
             {
                 idCliente = usuarioLogueado,
+                //Cliente = await _context.Clientes.FindAsync(usuarioLogueado),
                 Cliente = await _context.Clientes.FindAsync(usuarioLogueado),
                 Fecha = new DateTime(),   //?
                 CantidadPersonas = 0,     //?
@@ -164,6 +177,7 @@ namespace Proyecto_Resto.Controllers
                 Restaurante = null,       //?
                 ItemReserva = listaItem,
                 Total = total,
+                isProcessed = false,
 
             };
 
@@ -259,7 +273,7 @@ namespace Proyecto_Resto.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,CantidadPersonas,idCliente,Total,idRestaurante")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,CantidadPersonas,idCliente,Total,idRestaurante,isProcessed")] Reserva reserva)
         {
             if (id != reserva.Id)
             {
@@ -270,6 +284,7 @@ namespace Proyecto_Resto.Controllers
             {
                 try
                 {
+                    reserva.isProcessed = true;
                     _context.Update(reserva);
                     await _context.SaveChangesAsync();
                 }

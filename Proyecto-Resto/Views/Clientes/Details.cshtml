@@ -6,7 +6,7 @@
 
 
 <div align="center">
-    <h1>Informacion del Usuario</h1>
+    <h1 style="color:antiquewhite">Informacion del Usuario</h1>
     <div class="card" style="width: 18rem;" align="center">
     <img src="~/img/cafe.png" class="imgDatos"  width="100px">
   <div class="card-body">
@@ -15,21 +15,11 @@
         Email : @Html.DisplayFor(model => model.Email)<br /><br /><br />
             @if (User.IsInRole("CLIENTE"))
             {
-                <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
-
-            
-                <a asp-controller="Home" asp-action="Index">Salir</a>
-
+                <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>                           
             }
             else if (User.IsInRole("ADMIN"))
             {
-                <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
-
-                
-                <a asp-controller="Home" asp-action="Index">Salir</a>
-
-                <br />
-                <a asp-action="Index">volver</a>
+                <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
             }
   </div>
 </div>
