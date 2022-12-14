@@ -83,13 +83,11 @@ namespace Proyecto_Resto.Controllers
         {            
 
             // el administrador va a poder ver todos los pedidos
-
-            // traemos las relaciones de foreing key
             var restoContext = await _context.Reservas                                                    
                                                     .Include(r => r.Cliente)
                                                     .Include(r => r.Restaurante)
                                                     .Include(r => r.ItemReserva)
-                                                    .OrderByDescending(p => p.Fecha)//?
+                                                    .OrderByDescending(p => p.Fecha)
                                                     .ToListAsync();
 
             // traemos la lista de platos
@@ -158,6 +156,8 @@ namespace Proyecto_Resto.Controllers
             // filtramos los platos q ya se generaron
             var listaItem = itemReservas.Where(p => p.ItemProcesado == false).ToList();
 
+            quitarDeStock(listaItem);
+
             // calculamos el total de los items
             double total = ObtenerTotal(listaItem);
 
@@ -196,6 +196,15 @@ namespace Proyecto_Resto.Controllers
             //ViewData["idCliente"] = new SelectList(_context.Clientes, "Id", "Apellido");
             //ViewData["idRestaurante"] = new SelectList(_context.Restaurantes, "Id", "nombre");
             //return View();
+        }
+
+        private void quitarDeStock(List<ItemReserva> listaItem)
+        {
+            foreach (var item in listaItem)
+            {
+                var plato = _context.Platos.Find(item.Plato.Id);
+                plato.stock--;
+            }
         }
 
         private async Task<bool> CrearReserva(Reserva reserva)

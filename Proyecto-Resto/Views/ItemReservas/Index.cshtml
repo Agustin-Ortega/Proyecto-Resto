@@ -12,9 +12,6 @@
     }
 }
 
-
-<br />
-<br />
 <br />
 <br />
 <br />
@@ -39,21 +36,29 @@
                     <div class="card-body">
                         <h5 class="card-title">@item.Plato.nombre</h5>
                         <p class="card-text">@item.Plato.descricpion</p>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Remover</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" style="font-size:1rem;" class="btn btn-outline-danger">-</a>
                     </div>
                 </div>
             </div>
 
-            <hr />
+           
         }
     </div>
 
     <br /><br />
     <div class="card text-center" id="jb2">
         <div>
-            <h4>Importe total del Menu</h4>
-            <p class="card-text">$ @total.ToString()</p>
-                <a class="btn btn-outline-info my-3" asp-controller="Reservas" asp-action="Create">Confirmar Menu</a>
+            
+            @if(total > 0){
+                    <h4>Importe total del Menu</h4>
+                    <p class="card-text">$ @total.ToString()</p>
+                    <a class="btn btn-outline-info my-3" asp-controller="Reservas" asp-action="Create">Confirmar Menu</a>
+            }
+            else
+            {
+                    <h4>Sin Platos</h4>
+            }
+            
         </div>
     </div>
 </div>
