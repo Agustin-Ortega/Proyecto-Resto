@@ -14,6 +14,7 @@ namespace Proyecto_Resto.Models
         [ForeignKey("idReserva")]
         public Reserva? Reserva { get; set; }
 
+        [Display(Name ="Plato")]
         public int idPlato { get; set; }
         [ForeignKey("idPlato")]
         public Plato? Plato { get; set; }
